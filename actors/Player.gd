@@ -13,6 +13,4 @@ func calculate_direction() -> Vector2:
 	)
 
 func calculate_movement_velocity() -> Vector2:
-	var out := _velocity
-	out = _direction * speed * get_physics_process_delta_time()
-	return out
+	return _direction * speed * get_physics_process_delta_time()
