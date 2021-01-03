@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
+collision_mask = 14
 script = ExtResource( 1 )
 speed = Vector2( 10000, 10000 )
 
