@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/levels/Level.tres" type="TileSet" id=1]
 [ext_resource path="res://src/actors/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/actors/Black_Square.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/levels/realm_filter.gd" type="Script" id=4]
+[ext_resource path="res://src/weapons/Sword.tscn" type="PackedScene" id=5]
 
 [node name="Level" type="Node2D"]
 
@@ -27,3 +28,6 @@ position = Vector2( 461.419, 318.59 )
 visible = false
 color = Color( 0.337255, 0, 1, 1 )
 script = ExtResource( 4 )
+
+[node name="Sword" parent="." instance=ExtResource( 5 )]
+position = Vector2( 584.726, 440.168 )
