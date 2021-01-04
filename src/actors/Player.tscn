@@ -5,7 +5,9 @@
 
 [sub_resource type="CircleShape2D" id=1]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"character",
+]]
 collision_mask = 14
 script = ExtResource( 1 )
 speed = Vector2( 10000, 10000 )
