@@ -22,7 +22,6 @@ func _process(delta):
 		finalPos.y = pos.y + sin(rotation)*draw_radius
 		
 		set_position(finalPos)
-		
 
 func _on_Sword_body_entered(body):
 	print("Body entered: " + body.name)
