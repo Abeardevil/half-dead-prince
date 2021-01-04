@@ -5,7 +5,7 @@ class_name Weapon
 enum weaponTypes {SWORD, RANGED}
 enum weaponStates {IDLE, ATTACK}
 
-var weaponOwner: Actor
+var weaponOwner: WeakRef
 var weaponType: int
 
 # Called when the node enters the scene tree for the first time.
