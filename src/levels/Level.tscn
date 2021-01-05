@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/levels/Level.tres" type="TileSet" id=1]
 [ext_resource path="res://src/actors/Player.tscn" type="PackedScene" id=2]
@@ -6,9 +6,21 @@
 [ext_resource path="res://src/levels/realm_filter.gd" type="Script" id=4]
 [ext_resource path="res://src/weapons/Sword.tscn" type="PackedScene" id=5]
 
-[node name="Level" type="Node2D"]
+[sub_resource type="OpenSimplexNoise" id=1]
+seed = 24
+period = 3.5
+
+[sub_resource type="NoiseTexture" id=2]
+width = 50
+height = 50
+as_normalmap = true
+bump_strength = 32.0
+noise = SubResource( 1 )
+
+[node name="Level" type="Node"]
 
 [node name="TileMap" type="TileMap" parent="."]
+light_mask = 513
 tile_set = ExtResource( 1 )
 collision_layer = 8
 collision_mask = 3
@@ -30,8 +42,17 @@ arm_length = 22
 [node name="Sword" parent="TileMap" instance=ExtResource( 5 )]
 position = Vector2( 584.726, 440.168 )
 
+[node name="Light2D" type="Light2D" parent="TileMap"]
+position = Vector2( 510.077, 480.104 )
+scale = Vector2( 3.60284, 3.37589 )
+texture = SubResource( 2 )
+texture_scale = 5.64
+color = Color( 1, 0.0941176, 0.0941176, 0.14902 )
+range_height = 1.0
+range_item_cull_mask = 512
+
 [node name="Realm_Filter" type="CanvasModulate" parent="."]
 visible = false
-light_mask = 0
+light_mask = -2147483648
 color = Color( 0.337255, 0, 1, 1 )
 script = ExtResource( 4 )

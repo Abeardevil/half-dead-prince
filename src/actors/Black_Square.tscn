@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/actors/Black_Square.gd" type="Script" id=1]
+[ext_resource path="res://assets/light.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 18, 18 )
@@ -24,3 +25,8 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.36, 36 )
 texture = SubResource( 3 )
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+texture = ExtResource( 2 )
+offset = Vector2( 4, 0 )
