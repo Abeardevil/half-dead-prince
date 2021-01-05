@@ -25,5 +25,6 @@ position = Vector2( 461.419, 318.59 )
 
 [node name="Realm_Filter" type="CanvasModulate" parent="."]
 visible = false
+light_mask = 0
 color = Color( 0.337255, 0, 1, 1 )
 script = ExtResource( 4 )
