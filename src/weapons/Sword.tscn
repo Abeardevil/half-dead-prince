@@ -22,4 +22,3 @@ polygon = PoolVector2Array( -18.8625, 34.322, -17.5999, 183.26, -0.344378, 204.8
 position = Vector2( 2.38485, -1.09055 )
 rotation = 1.5708
 texture = ExtResource( 2 )
-[connection signal="body_entered" from="." to="." method="_on_Sword_body_entered"]
