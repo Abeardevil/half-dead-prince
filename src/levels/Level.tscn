@@ -19,8 +19,9 @@ noise = SubResource( 1 )
 
 [node name="Level" type="Node"]
 
-[node name="World" type="TileMap" parent="."]
-light_mask = 513
+[node name="Nav" type="Navigation2D" parent="."]
+
+[node name="World" type="TileMap" parent="Nav"]
 tile_set = ExtResource( 1 )
 collision_layer = 8
 collision_mask = 3
@@ -31,37 +32,36 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Player" parent="World" instance=ExtResource( 2 )]
-position = Vector2( 399.242, 430.081 )
-speed = 12500.0
-arm_length = 20
-boost_time = 3
-boost_percent = 150
-
-[node name="Square Enemy" parent="World" instance=ExtResource( 3 )]
-position = Vector2( 461.419, 318.59 )
-equipped_weapon = ExtResource( 5 )
-arm_length = 22
-
-[node name="Sword" parent="World" instance=ExtResource( 5 )]
-position = Vector2( 584.726, 440.168 )
-
-[node name="Light2D" type="Light2D" parent="World"]
-position = Vector2( 510.077, 480.104 )
-scale = Vector2( 3.60284, 3.37589 )
-texture = SubResource( 2 )
-texture_scale = 5.64
-color = Color( 1, 0.0941176, 0.0941176, 0.14902 )
-range_height = 1.0
-range_item_cull_mask = 512
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Realm_Filter" type="CanvasModulate" parent="World"]
+[node name="Realm_Filter" type="CanvasModulate" parent="Nav/World"]
 visible = false
 light_mask = -2147483648
 color = Color( 0.337255, 0, 1, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Light2D" type="Light2D" parent="Nav/World"]
+position = Vector2( 510.077, 480.104 )
+scale = Vector2( 3.60284, 3.37589 )
+texture = SubResource( 2 )
+texture_scale = 5.64
+color = Color( 1, 0.0941176, 0.0941176, 0.14902 )
+range_height = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Player" parent="Nav/World" instance=ExtResource( 2 )]
+position = Vector2( 399.242, 430.081 )
+speed = 12500.0
+arm_length = 20
+boost_time = 3
+boost_percent = 150
+
+[node name="Square Enemy" parent="Nav/World" instance=ExtResource( 3 )]
+position = Vector2( 461.419, 318.59 )
+
+[node name="Sword" parent="Nav/World" instance=ExtResource( 5 )]
+position = Vector2( 584.726, 440.168 )
+
+[node name="Line2D" type="Line2D" parent="."]

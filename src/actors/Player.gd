@@ -1,15 +1,21 @@
 extends Actor
 
+class_name Player
+
 export var boost_time = 1
 export var boost_percent = 300 #amount as percentage
-
-var use_boost := false
+export var zoom_amount = 0.1
+export var min_zoom = 0.1
 
 signal player_shifting
+
+var use_boost := false
 
 func _ready():
 	var level := get_parent()
 	$".".connect("player_shifting", level, "do_shift")
+func _process(delta):
+	handle_camera_zoom()
 
 func _physics_process(delta):
 	_direction = calculate_direction()
@@ -47,3 +53,15 @@ func calculate_movement_velocity() -> Vector2:
 func _on_SpeedTimer_timeout():
 	use_boost = false
 	pass # Replace with function body.
+
+func handle_camera_zoom():
+	if Input.is_action_just_released("zoom_in"):
+		$Camera2D.zoom.x -= zoom_amount
+		$Camera2D.zoom.y -= zoom_amount
+		if $Camera2D.zoom.x < min_zoom:
+			$Camera2D.zoom.x = min_zoom
+		if $Camera2D.zoom.y < min_zoom:
+			$Camera2D.zoom.y = min_zoom
+	if Input.is_action_just_released("zoom_out"):
+		$Camera2D.zoom.x += zoom_amount
+		$Camera2D.zoom.y += zoom_amount

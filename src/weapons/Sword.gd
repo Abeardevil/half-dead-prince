@@ -9,7 +9,7 @@ func _ready():
 
 #func _process(delta):
 #	calculate_weapon_position()
-		
+
 
 #func _on_Sword_body_entered(body):
 #	_on_Weapon_body_entered()
