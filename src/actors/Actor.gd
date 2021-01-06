@@ -1,4 +1,4 @@
- extends KinematicBody2D
+extends KinematicBody2D
 
 class_name Actor
 
@@ -6,7 +6,12 @@ export var speed := 3000.0
 export var friction := 800
 export var equipped_weapon : PackedScene
 export var arm_length := 0
+export var in_living_realm = true
+export var has_indicator = true
 
+var realm_indicator : Realm_Indicator
+var realm_indicator_scene : PackedScene = load('res://src/lights/Realm_Indicator.tscn')
+var is_glowing = false
 var _velocity := Vector2.ZERO
 var _direction := Vector2.ZERO
 var face_angle : float = 0
@@ -15,6 +20,8 @@ var reachable_weapon : Weapon
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if has_indicator:
+		add_indicator()
 	if equipped_weapon != null && equipped_weapon.can_instance():
 		pick_up_weapon(equipped_weapon.instance())
 
@@ -22,7 +29,30 @@ func _ready():
 func _process(delta):
 	calculate_weapon_position()
 	pass
+
+func add_indicator():
+	realm_indicator = realm_indicator_scene.instance()
+	add_child(realm_indicator)
 	
+	if !in_living_realm:
+		_toggle_indicator()
+		
+	if is_instance_valid(get_parent()):
+		get_parent().connect('shift_toggle', $'.', "_toggle_indicator")
+
+func _toggle_indicator():
+	is_glowing = !is_glowing
+	if(is_glowing):
+		if in_living_realm:
+			realm_indicator.set_living_glow_vis(true)
+		else:
+			realm_indicator.set_spirit_glow_vis(true)
+	else:
+		if in_living_realm:
+			realm_indicator.set_living_glow_vis(false)
+		else:
+			realm_indicator.set_spirit_glow_vis(false)
+
 func get_velocity() -> Vector2:
 	return _velocity
 
@@ -66,5 +96,4 @@ func transfer_instance(instance : Node, new_parent : Node) -> Node:
 	else:
 		push_error("An error occured while transfering")
 		return null
-		
 		

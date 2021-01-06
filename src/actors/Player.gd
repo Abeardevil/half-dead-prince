@@ -5,6 +5,12 @@ export var boost_percent = 300 #amount as percentage
 
 var use_boost := false
 
+signal player_shifting
+
+func _ready():
+	var level := get_parent()
+	$".".connect("player_shifting", level, "do_shift")
+
 func _physics_process(delta):
 	_direction = calculate_direction()
 	
@@ -12,15 +18,16 @@ func _physics_process(delta):
 	_velocity = move_and_slide(_velocity)
 	
 	var mousepos: Vector2 = get_global_mouse_position()
-	var pos: Vector2 = get_position()	
+	var pos: Vector2 = get_position()
 	var delta_x = mousepos.x - pos.x
 	var delta_y = pos.y - mousepos.y
 	
 	face_angle = atan2(delta_y, delta_x) * -1
-	
 	if Input.is_action_just_pressed("swap_realms"):
 		$SpeedTimer.start(boost_time)
 		use_boost = true
+		in_living_realm = !in_living_realm
+		emit_signal("player_shifting")
 	
 	if Input.is_action_just_pressed("equip"):
 		pick_up_weapon(reachable_weapon)
