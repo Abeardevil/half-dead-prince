@@ -7,6 +7,7 @@ var nav : Navigation2D = null setget set_nav
 var path = []
 var goal = Vector2()
 var pathLine: Line2D = null
+var minPlayerDistance = 35.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,9 +28,12 @@ func _physics_process(delta):
 
 func move_along_path():
 	if path.size():
-		if global_position.distance_to(path[0]) < 2:
-			path.remove(0)
-			move_along_path()
+		if global_position.distance_to(path[0]) < minPlayerDistance:
+			if path.size() > 1:
+				path.remove(0)
+				move_along_path()
+			else:
+				return
 		else:
 			var d := global_position.distance_to(path[0])
 			position = global_position.linear_interpolate(path[0], (speed * get_physics_process_delta_time()) / d)
