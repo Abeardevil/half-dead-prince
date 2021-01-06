@@ -3,7 +3,7 @@ extends Actor
 class_name Player
 
 export var boost_time = 1
-export var boost_percent = 3000 #amount as percentage
+export var boost_percent = 300 #amount as percentage
 
 var use_boost := false
 
