@@ -1,24 +1,30 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/weapons/Sword.gd" type="Script" id=1]
 [ext_resource path="res://assets/weapons/sword.png" type="Texture" id=2]
+[ext_resource path="res://src/animations/sword_swing.tres" type="Animation" id=3]
 
 [node name="Sword" type="Area2D" groups=[
 "weapon",
 ]]
 position = Vector2( 15, 0 )
-scale = Vector2( 2, 1 )
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 1 )
+angle_to_side = 75.0
+weapon_angle = 90.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2( -1.16994, 0.00809288 )
-rotation = 1.56205
-scale = Vector2( 0.106915, -0.0662487 )
+position = Vector2( -7.21434, 0.0609607 )
+rotation = 1.5708
+scale = Vector2( 0.106915, -0.158501 )
 polygon = PoolVector2Array( -18.8625, 34.322, -17.5999, 183.26, -0.344378, 204.825, 20.2782, 185.127, 19.4364, 32.983 )
 
 [node name="sword" type="Sprite" parent="."]
-position = Vector2( 2.38485, -1.09055 )
-rotation = 1.5708
+position = Vector2( 2.39455, -1.00655 )
+rotation = 1.57955
+scale = Vector2( 1, 2 )
 texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Swing = ExtResource( 3 )

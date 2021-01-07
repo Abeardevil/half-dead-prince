@@ -23,7 +23,7 @@ func _physics_process(delta):
 		pathLine.clear_points()
 		for i in path:
 			pathLine.add_point(i)
-		
+	
 	move_along_path()
 
 func move_along_path():
@@ -37,8 +37,7 @@ func move_along_path():
 		else:
 			var d := global_position.distance_to(path[0])
 			position = global_position.linear_interpolate(path[0], (speed * get_physics_process_delta_time()) / d)
-	
-	
+
 func update_path():
 	path = nav.get_simple_path(global_position, goal, true)
 	

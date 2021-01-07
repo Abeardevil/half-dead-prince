@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "TileMap",
+"class": "Abstract_Level",
+"language": "GDScript",
+"path": "res://src/levels/Abstract_Level.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Actor",
 "language": "GDScript",
 "path": "res://src/actors/Actor.gd"
+}, {
+"base": "Enemy",
+"class": "Black_Square",
+"language": "GDScript",
+"path": "res://src/actors/Black_Square.gd"
 }, {
 "base": "Actor",
 "class": "Enemy",
@@ -40,7 +50,9 @@ _global_script_classes=[ {
 "path": "res://src/weapons/Weapon.gd"
 } ]
 _global_script_class_icons={
+"Abstract_Level": "",
 "Actor": "",
+"Black_Square": "",
 "Enemy": "",
 "Entity": "",
 "Player": "",
@@ -109,6 +121,11 @@ zoom_out={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -116,6 +133,8 @@ zoom_out={
 2d_physics/layer_2="enemies"
 2d_physics/layer_3="items"
 2d_physics/layer_4="world"
+2d_physics/layer_5="living_realm_entities"
+2d_physics/layer_6="spirit_realm_entities"
 
 [rendering]
 

@@ -2,6 +2,9 @@ extends KinematicBody2D
 
 class_name Actor
 
+enum collision_enums {living_realm_collision = 16, spirit_realm_collision = 32,}
+enum mask_enums {living_realm_mask = 24, spirit_realm_mask = 40,}
+
 export var speed := 3000.0
 export var friction := 800
 export var equipped_weapon : PackedScene
@@ -11,12 +14,13 @@ export var has_indicator = true
 
 var realm_indicator : Realm_Indicator
 var realm_indicator_scene : PackedScene = load('res://src/lights/Realm_Indicator.tscn')
-var is_glowing = false
 var _velocity := Vector2.ZERO
 var _direction := Vector2.ZERO
 var face_angle : float = 0
 var current_weapon : Weapon
 var reachable_weapon : Weapon
+var is_attacking : bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,62 +31,57 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	calculate_weapon_position()
-	pass
+	point_weapon()
+	var current_collision = get_collision_layer()
+	var current_mask = get_collision_mask()
+	var living_realm_shown = get_parent().living_realm_shown
+	if in_living_realm:
+		if is_instance_valid(realm_indicator):
+			realm_indicator.set_living_glow_vis(!living_realm_shown)
+		if current_collision != collision_enums.living_realm_collision:
+			set_collision_layer(collision_enums.living_realm_collision)
+		if current_mask != mask_enums.living_realm_mask:
+			set_collision_mask(mask_enums.living_realm_mask)
+	else:
+		if is_instance_valid(realm_indicator):
+			realm_indicator.set_spirit_glow_vis(living_realm_shown)
+		if current_collision != collision_enums.spirit_realm_collision:
+			set_collision_layer(collision_enums.spirit_realm_collision)
+		if current_mask != mask_enums.spirit_realm_mask:
+			set_collision_mask(mask_enums.spirit_realm_mask)
 
 func add_indicator():
 	realm_indicator = realm_indicator_scene.instance()
 	add_child(realm_indicator)
-	
-	if !in_living_realm:
-		_toggle_indicator()
-		
-	if is_instance_valid(get_parent()):
-		get_parent().connect('shift_toggle', $'.', "_toggle_indicator")
-
-func _toggle_indicator():
-	is_glowing = !is_glowing
-	if(is_glowing):
-		if in_living_realm:
-			realm_indicator.set_living_glow_vis(true)
-		else:
-			realm_indicator.set_spirit_glow_vis(true)
-	else:
-		if in_living_realm:
-			realm_indicator.set_living_glow_vis(false)
-		else:
-			realm_indicator.set_spirit_glow_vis(false)
 
 func get_velocity() -> Vector2:
 	return _velocity
 
-func calculate_weapon_position():
-	if !is_instance_valid(current_weapon):
-		return
-	point_weapon_by_angle(face_angle)
-	
-func point_weapon_by_angle(angle: float):
-	current_weapon.rotation = angle
-	var finalPos := Vector2.ZERO
-	finalPos.x = cos(angle) * arm_length
-	finalPos.y = sin(angle) * arm_length
-	current_weapon.set_position(finalPos)
+func point_weapon():
+	if is_instance_valid(current_weapon):
+		var finalPos := Vector2.ZERO
+		var weapon_rotation = (face_angle + current_weapon.weapon_angle) * PI / 180
+		finalPos.x = cos(weapon_rotation) * arm_length
+		finalPos.y = sin(weapon_rotation) * arm_length
+		current_weapon.set_position(finalPos)
+		current_weapon.rotation = weapon_rotation
 
 func pick_up_weapon(new_weapon : Weapon):
 	if new_weapon != null:
-		drop_weapon()
-		current_weapon = transfer_instance(new_weapon, $'.')
-		current_weapon.isHeld = true
-		new_weapon.queue_free()
+	  drop_weapon()
+	  current_weapon = transfer_instance(new_weapon, $'.')
+	  current_weapon.set_picked_up($".")
+	  # current_weapon.isHeld = true
+	  # current_weapon.in_living_realm = in_living_realm
+	  new_weapon.queue_free()
 	
 func drop_weapon():
 	if current_weapon != null:
 		var ground = get_parent()
 		var old_weapon : Weapon = transfer_instance(current_weapon, ground)
-		old_weapon.isHeld = false
-		old_weapon.position = position
+		old_weapon.set_put_down($".")
 		current_weapon.queue_free()
-	
+
 func set_reachable_weapon(new_reachable_weapon : Weapon):
 	reachable_weapon = new_reachable_weapon
 
@@ -97,3 +96,6 @@ func transfer_instance(instance : Node, new_parent : Node) -> Node:
 		push_error("An error occured while transfering")
 		return null
 		
+func attack():
+	if is_instance_valid(current_weapon):
+		current_weapon.start_anim()

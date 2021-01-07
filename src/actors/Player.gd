@@ -39,6 +39,8 @@ func _physics_process(delta):
 		pick_up_weapon(reachable_weapon)
 	if Input.is_action_just_pressed("drop"):
 		drop_weapon()
+	if Input.is_action_just_pressed("attack"):
+		attack()
 
 func calculate_direction() -> Vector2:
 	return Vector2(

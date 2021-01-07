@@ -1,4 +1,4 @@
-extends "res://src/levels/Abstract_Level.gd"
+extends Abstract_Level
 
 
 # Declare member variables here. Examples:

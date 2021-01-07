@@ -13,7 +13,9 @@ __meta__ = {
 [node name="Spirit_Realm_Glow" type="Light2D" parent="."]
 visible = false
 texture = ExtResource( 1 )
+texture_scale = 1.1
 color = Color( 0.337255, 0, 1, 1 )
+mode = 2
 
 [node name="Living_Realm_Glow" type="Light2D" parent="."]
 visible = false
