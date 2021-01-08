@@ -55,29 +55,17 @@ __meta__ = {
 position = Vector2( 399.242, 430.081 )
 collision_mask = 12
 speed = 12500.0
+equipped_weapon = ExtResource( 5 )
 boost_time = 3
 boost_percent = 150
 
-[node name="Sword" parent="Nav/World" instance=ExtResource( 5 )]
-position = Vector2( 584.726, 440.168 )
-
 [node name="Black_Square" parent="Nav/World" instance=ExtResource( 3 )]
-position = Vector2( 254.846, 641.834 )
+position = Vector2( 780.904, 655.948 )
 equipped_weapon = ExtResource( 5 )
 
 [node name="Black_Square2" parent="Nav/World" instance=ExtResource( 3 )]
-position = Vector2( 823.058, 213.316 )
+position = Vector2( 245.76, 357.457 )
 equipped_weapon = ExtResource( 5 )
-
-[node name="Black_Square3" parent="Nav/World" instance=ExtResource( 3 )]
-position = Vector2( 275.611, 256.734 )
-equipped_weapon = ExtResource( 5 )
-in_living_realm = false
-
-[node name="Black_Square4" parent="Nav/World" instance=ExtResource( 3 )]
-position = Vector2( 775.864, 566.325 )
-equipped_weapon = ExtResource( 5 )
-in_living_realm = false
 
 [node name="Line2D" type="Line2D" parent="."]
 visible = false

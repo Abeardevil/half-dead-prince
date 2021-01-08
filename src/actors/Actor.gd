@@ -19,8 +19,6 @@ var _direction := Vector2.ZERO
 var face_angle : float = 0
 var current_weapon : Weapon
 var reachable_weapon : Weapon
-var is_attacking : bool = false
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -60,7 +58,7 @@ func get_velocity() -> Vector2:
 func point_weapon():
 	if is_instance_valid(current_weapon):
 		var finalPos := Vector2.ZERO
-		var weapon_rotation = (face_angle + current_weapon.weapon_angle) * PI / 180
+		var weapon_rotation = face_angle + (current_weapon.weapon_angle) * PI / 180
 		finalPos.x = cos(weapon_rotation) * arm_length
 		finalPos.y = sin(weapon_rotation) * arm_length
 		current_weapon.set_position(finalPos)
@@ -99,3 +97,9 @@ func transfer_instance(instance : Node, new_parent : Node) -> Node:
 func attack():
 	if is_instance_valid(current_weapon):
 		current_weapon.start_anim()
+
+		
+func do_shift():
+	in_living_realm = !in_living_realm
+	if current_weapon != null:
+		current_weapon.in_living_realm = in_living_realm

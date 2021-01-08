@@ -30,9 +30,9 @@ func _physics_process(delta):
 	
 	face_angle = atan2(delta_y, delta_x) * -1
 	if Input.is_action_just_pressed("swap_realms"):
+		do_shift()
 		$SpeedTimer.start(boost_time)
 		use_boost = true
-		in_living_realm = !in_living_realm
 		emit_signal("player_shifting")
 	
 	if Input.is_action_just_pressed("equip"):

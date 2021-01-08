@@ -36,6 +36,7 @@ func move_along_path():
 				return
 		else:
 			var d := global_position.distance_to(path[0])
+			face_angle = atan2(path[0].y - global_position.y, path[0].x - global_position.y)
 			position = global_position.linear_interpolate(path[0], (speed * get_physics_process_delta_time()) / d)
 
 func update_path():
