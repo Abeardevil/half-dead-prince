@@ -1,13 +1,26 @@
 extends Node
 
-onready var nav = get_node("Nav")
-onready var map = get_node("Nav/TileMap")
+var game_scene : PackedScene = load("res://src/levels/Nav.tscn")
+var game_instance = null
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Button.connect("button_up", $".", "start_game")
+	pass
 
+func start_game():
+	Globals.game_running = true
+	Globals.living_realm_shown = true
+	Globals.player_score = 0
+	game_instance = game_scene.instance()
+	add_child(game_instance)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if Globals.game_running && $Button.visible:
+		$Button.visible = false
+		$ScoreDisplay.visible = false
+	elif !Globals.game_running && !$Button.visible:
+		$Button.visible = true
+		$ScoreDisplay.visible = true
+		
+		game_instance.queue_free()
+	pass

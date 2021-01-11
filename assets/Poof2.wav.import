@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Poof2.wav-5bda5bfb134fe9ac507fb8653f1e7689.sample"
+
+[deps]
+
+source_file="res://assets/Poof2.wav"
+dest_files=[ "res://.import/Poof2.wav-5bda5bfb134fe9ac507fb8653f1e7689.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -6,11 +6,11 @@ enum collision_enums {living_realm_collision = 16, spirit_realm_collision = 32,}
 enum mask_enums {living_realm_mask = 24, spirit_realm_mask = 40,}
 
 export var speed := 3000.0
-export var friction := 800
 export var equipped_weapon : PackedScene
 export var arm_length := 0
 export var in_living_realm = true
 export var has_indicator = true
+export var heart_cnt : int = 1
 
 var realm_indicator : Realm_Indicator
 var realm_indicator_scene : PackedScene = load('res://src/lights/Realm_Indicator.tscn')
@@ -19,6 +19,9 @@ var _direction := Vector2.ZERO
 var face_angle : float = 0
 var current_weapon : Weapon
 var reachable_weapon : Weapon
+var knockback : Vector2 = Vector2.ZERO
+var knockback_skips = 100
+var knockback_cnt = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,23 +33,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	point_weapon()
-	var current_collision = get_collision_layer()
-	var current_mask = get_collision_mask()
-	var living_realm_shown = get_parent().living_realm_shown
-	if in_living_realm:
-		if is_instance_valid(realm_indicator):
-			realm_indicator.set_living_glow_vis(!living_realm_shown)
-		if current_collision != collision_enums.living_realm_collision:
-			set_collision_layer(collision_enums.living_realm_collision)
-		if current_mask != mask_enums.living_realm_mask:
-			set_collision_mask(mask_enums.living_realm_mask)
+	Globals.entity_display($".")
+
+func _physics_process(delta):
+	if knockback.length() < 10:
+		knockback = Vector2.ZERO
 	else:
-		if is_instance_valid(realm_indicator):
-			realm_indicator.set_spirit_glow_vis(living_realm_shown)
-		if current_collision != collision_enums.spirit_realm_collision:
-			set_collision_layer(collision_enums.spirit_realm_collision)
-		if current_mask != mask_enums.spirit_realm_mask:
-			set_collision_mask(mask_enums.spirit_realm_mask)
+		knockback *= .9
+		move_and_slide(knockback * delta)
 
 func add_indicator():
 	realm_indicator = realm_indicator_scene.instance()
@@ -97,9 +91,21 @@ func transfer_instance(instance : Node, new_parent : Node) -> Node:
 func attack():
 	if is_instance_valid(current_weapon):
 		current_weapon.start_anim()
-
 		
 func do_shift():
 	in_living_realm = !in_living_realm
 	if current_weapon != null:
 		current_weapon.in_living_realm = in_living_realm
+
+func start_anim():
+	pass
+	
+func take_damage():
+	print(heart_cnt)
+	heart_cnt -= 1
+	if heart_cnt <= 0:
+		if is_instance_valid($AnimationPlayer):
+			$AnimationPlayer.play("Death Poof")
+			yield($AnimationPlayer, "animation_finished")
+		queue_free()
+	pass

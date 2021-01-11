@@ -10,30 +10,33 @@ export var min_zoom = 0.1
 signal player_shifting
 
 var use_boost := false
+var cut_off_velocity = 10
+var friction = 1
 
 func _ready():
-	var level := get_parent()
-	$".".connect("player_shifting", level, "do_shift")
+	pass
+
 func _process(delta):
 	handle_camera_zoom()
+	Globals.player_health = heart_cnt
 
 func _physics_process(delta):
 	_direction = calculate_direction()
-	
 	_velocity = calculate_movement_velocity()
-	_velocity = move_and_slide(_velocity)
+	_velocity = move_and_slide(_velocity * delta * 100)
 	
 	var mousepos: Vector2 = get_global_mouse_position()
 	var pos: Vector2 = get_position()
 	var delta_x = mousepos.x - pos.x
-	var delta_y = pos.y - mousepos.y
+	var delta_y = mousepos.y - pos.y
 	
-	face_angle = atan2(delta_y, delta_x) * -1
+	face_angle = atan2(delta_y, delta_x)
 	if Input.is_action_just_pressed("swap_realms"):
 		do_shift()
 		$SpeedTimer.start(boost_time)
 		use_boost = true
-		emit_signal("player_shifting")
+#		living_realm_shown = !living_realm_shown
+		Globals.living_realm_shown = !Globals.living_realm_shown
 	
 	if Input.is_action_just_pressed("equip"):
 		pick_up_weapon(reachable_weapon)
@@ -67,3 +70,16 @@ func handle_camera_zoom():
 	if Input.is_action_just_released("zoom_out"):
 		$Camera2D.zoom.x += zoom_amount
 		$Camera2D.zoom.y += zoom_amount
+		
+func take_damage():
+	print(heart_cnt)
+	heart_cnt -= 1
+	if heart_cnt <= 0:
+		if is_instance_valid($AnimationPlayer):
+			$AnimationPlayer.play("Death Poof")
+			yield($AnimationPlayer, "animation_finished")
+		queue_free()
+	pass
+
+func _exit_tree():
+	Globals.game_running = false

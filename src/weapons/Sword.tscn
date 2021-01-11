@@ -8,11 +8,13 @@
 "weapon",
 ]]
 position = Vector2( 15, 0 )
-collision_layer = 4
-collision_mask = 3
+collision_layer = 2147483648
+collision_mask = 0
 script = ExtResource( 1 )
 angle_to_side = 75.0
-weapon_angle = 75.0
+weapon_angle = 15.0
+impact = 100.0
+has_hit_box = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( -7.21434, 0.0609607 )

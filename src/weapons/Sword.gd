@@ -1,5 +1,7 @@
 extends Weapon
 
+export var has_hit_box = false
+
 var anim_value
 
 # Called when the node enters the scene tree for the first time.
@@ -18,4 +20,12 @@ func start_anim():
 
 func anim_cleanup():
 	weapon_angle = angle_to_side
+	pass
+
+func on_hit(body : Node2D):
+	if has_hit_box:
+		var delta_vect = body.position - get_parent().position
+		body.knockback += impact * delta_vect.normalized() * 600
+		body.take_damage()
+		pass
 	pass
