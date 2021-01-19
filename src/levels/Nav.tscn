@@ -58,8 +58,8 @@ __meta__ = {
 
 [node name="Realm_Filter" type="CanvasModulate" parent="."]
 visible = false
-light_mask = -2147483647
-color = Color( 0.337255, 0, 1, 0.462745 )
+light_mask = -2147483648
+color = Color( 0.337255, 0, 1, 0.784314 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
