@@ -21,6 +21,5 @@ func _process(delta):
 	elif !Globals.game_running && !$Button.visible:
 		$Button.visible = true
 		$ScoreDisplay.visible = true
-		
 		game_instance.queue_free()
 	pass

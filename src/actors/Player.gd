@@ -10,8 +10,6 @@ export var min_zoom = 0.1
 signal player_shifting
 
 var use_boost := false
-var cut_off_velocity = 10
-var friction = 1
 
 func _ready():
 	pass
@@ -49,7 +47,7 @@ func calculate_direction() -> Vector2:
 	return Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	)
+	).normalized()
 
 func calculate_movement_velocity() -> Vector2:
 	var totalSpeed = speed * boost_percent / 100 if use_boost else speed
@@ -70,16 +68,6 @@ func handle_camera_zoom():
 	if Input.is_action_just_released("zoom_out"):
 		$Camera2D.zoom.x += zoom_amount
 		$Camera2D.zoom.y += zoom_amount
-		
-func take_damage():
-	print(heart_cnt)
-	heart_cnt -= 1
-	if heart_cnt <= 0:
-		if is_instance_valid($AnimationPlayer):
-			$AnimationPlayer.play("Death Poof")
-			yield($AnimationPlayer, "animation_finished")
-		queue_free()
-	pass
 
 func _exit_tree():
 	Globals.game_running = false

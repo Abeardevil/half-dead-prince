@@ -32,15 +32,10 @@ func _physics_process(delta):
 				$Sprite.frame = 1
 		pass
 	pass
-	
+
 func take_damage():
-	print(heart_cnt)
-	heart_cnt -= 1
-	if heart_cnt <= 0:
+	.take_damage()
+	if heart_cnt == 0:
 		Globals.player_score += 1
-		Globals.spawn_new_wisp()
-		if is_instance_valid($AnimationPlayer):
-			$AnimationPlayer.play("Death Poof")
-			yield($AnimationPlayer, "animation_finished")
-		queue_free()
-	pass
+		if heart_cnt == 0:
+			Globals.spawn_new_wisp()

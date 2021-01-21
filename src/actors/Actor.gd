@@ -51,11 +51,10 @@ func get_velocity() -> Vector2:
 
 func point_weapon():
 	if is_instance_valid(current_weapon):
-		var finalPos := Vector2.ZERO
+		var final_pos = Vector2.ZERO
 		var weapon_rotation = face_angle + (current_weapon.weapon_angle) * PI / 180
-		finalPos.x = cos(weapon_rotation) * arm_length
-		finalPos.y = sin(weapon_rotation) * arm_length
-		current_weapon.set_position(finalPos)
+		final_pos = Vector2(cos(weapon_rotation), sin(weapon_rotation)) * arm_length
+		current_weapon.set_position(final_pos)
 		current_weapon.rotation = weapon_rotation
 
 func pick_up_weapon(new_weapon : Weapon):
@@ -101,9 +100,11 @@ func start_anim():
 	pass
 	
 func take_damage():
-	print(heart_cnt)
 	heart_cnt -= 1
-	if heart_cnt <= 0:
+	if heart_cnt == 0:
+		current_weapon.visible = false
+		set_process(false)
+		set_physics_process(false)
 		if is_instance_valid($AnimationPlayer):
 			$AnimationPlayer.play("Death Poof")
 			yield($AnimationPlayer, "animation_finished")
